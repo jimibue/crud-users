@@ -1,20 +1,4 @@
-import logo from "./logo.svg";
-import "./App.css";
-import {useState} from 'react'
-import axios from "axios";
-import User from "./User";
 
-function App() {
-  const [users, setUsers] = useState([])
-  // const [state, setState] = useState(initialState)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-
-  const getUsers = () => {
-    setLoading(true)
-    setError(null)
-    axios
       .get("https://reqres.in/api/users?delay=1")
       .then((res) => {
         console.log('res:', res)
