@@ -43,10 +43,21 @@ function App() {
     let newUsers =users.filter(u=> u.id !==id)
     setUsers(newUsers)
 }
+const updateUser =(user)=>{
+  console.log('in app.js user is:', user)
+  // user.. i want to update users with the user updated
+  let updatedUsers = users.map(u=>{
+    if(u.id === user.id){
+      return user
+    }
+    return u
+  })
+  setUsers(updatedUsers)
+}
 const renderUsers = ()=>{
   // user is {"id":1,"email":"george.bluth@reqres.in","first_name":"George","last_name":"Bluth","avatar":"https://reqres.in/img/faces/1-image.jpg"}
   return users.map((user)=>{
-    return <User key={user.id} {...user} deleteUserYo={()=> deleteUser(user.id)}/>
+    return <User key={user.id} {...user} updateUser={updateUser} deleteUserYo={()=> deleteUser(user.id)}/>
   })
 }
 
