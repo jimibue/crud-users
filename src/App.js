@@ -3,6 +3,7 @@ import "./App.css";
 import {useState} from 'react'
 import axios from "axios";
 import User from "./User";
+import NewUser from "./NewUser";
 
 function App() {
   const [users, setUsers] = useState([])
@@ -29,24 +30,35 @@ function App() {
          setLoading(false)
       });
   };
+  const addUser = (user)=>{
+    let newUsers = [user, ...users]
+    setUsers(newUsers)
+  }
 
   const deleteUser = (id)=>{
     console.log('in app js')
-    console.log(id)
+    console.log('deleting item with id:',id)
     // TODO: delete from DB
     // UPDATE UI
     let newUsers =users.filter(u=> u.id !==id)
     setUsers(newUsers)
 }
+const renderUsers = ()=>{
+  // user is {"id":1,"email":"george.bluth@reqres.in","first_name":"George","last_name":"Bluth","avatar":"https://reqres.in/img/faces/1-image.jpg"}
+  return users.map((user)=>{
+    return <User key={user.id} {...user} deleteUserYo={()=> deleteUser(user.id)}/>
+  })
+}
 
   
   return (
-    <div className="App">
-      <h1>YOYO!</h1>
+    <div className="App" style={{border:'5px solid black', margin:'10px', padding:'10px'}}>
+      <h1>User CRUD DEMO</h1>
+      <NewUser addUserCB={addUser}/>
       <button disabled={loading} onClick={getUsers}>{loading ? 'loading':'get users'}</button>
-      {/* <button onClick={getUsers}>get</button> */}
-      {/* <div>{users.map((u)=> <User email={u.email} first_name={u.first_name}/>)}</div> */}
-      <div>{users.map((u)=> <User key={u.id} {...u} deleteUserYo={deleteUser}/>)}</div>
+      <div>{renderUsers()}</div>
+      <hr />
+      <h1>what our 'users' state looks like</h1>
       <div>{JSON.stringify(users)}</div>
 
       {error && <p style={{color:'red'}}>ERROR: {error}</p>}
